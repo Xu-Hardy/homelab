@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  airprint:
+    image: chuckcharlie/cups-avahi-airprint:latest
+    container_name: airprint
+    network_mode: host
+    privileged: true
+    environment:
+      - TZ=Asia/Shanghai
+      - CUPSADMIN=admin
+      - CUPSPASSWORD=pass
+      - HOST_OS=Synology
+      - TCP_PORT_631=631
+    restart: unless-stopped

@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  cocoserver:
+    image: infinilabs/coco:0.2.2-2000
+    container_name: cocoserver
+    hostname: coco-server
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+    deploy:
+      resources:
+        limits:
+          memory: 4g
+          cpus: "2"
+    volumes:
+      - ./cocoserver/data:/app/easysearch/data
+      - ./cocoserver/logs:/app/easysearch/logs
+    environment:
+      EASYSEARCH_INITIAL_ADMIN_PASSWORD: "coco-server"
+      ES_JAVA_OPTS: "-Xms2g -Xmx2g"
+
+volumes:
+  data:
+  logs:

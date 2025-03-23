@@ -1,0 +1,71 @@
+version: "3"
+services:
+  easysearch-node1:
+    user: "602:602"
+    image: infinilabs/easysearch:1.11.1-2000
+    container_name: easysearch-node1
+    hostname: easysearch-node1
+    environment:
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - $PWD/ezs1/config:/app/easysearch/config
+      - $PWD/ezs1/data:/app/easysearch/data
+      - $PWD/ezs1/logs:/app/easysearch/logs
+    ports:
+      - 9201:9200
+      - 9301:9300
+    networks:
+      - esnet
+  easysearch-node2:
+    user: "602:602"
+    image: infinilabs/easysearch:1.11.1-2000
+    container_name: easysearch-node2
+    hostname: easysearch-node2
+    environment:
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - $PWD/ezs2/config:/app/easysearch/config
+      - $PWD/ezs2/data:/app/easysearch/data
+      - $PWD/ezs2/logs:/app/easysearch/logs
+    ports:
+      - 9202:9200
+      - 9302:9300
+    networks:
+      - esnet
+  console:
+    image: infinilabs/console:1.29.1-2000
+    container_name: console
+    hostname: console
+    volumes:
+      - $PWD/console/data:/data
+      - $PWD/console/log:/log
+    networks:
+      - esnet
+    ports:
+      - 9000:9000
+    links:
+      - easysearch-node1:es1
+      - easysearch-node2:es2
+    environment:
+      - TZ=Asia/Shanghai
+
+networks:
+  esnet:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.24.0.0/16
