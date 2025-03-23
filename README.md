@@ -65,6 +65,12 @@ sudo docker run -d --name="home-assistants" --net=host homeassistant/home-assist
 
 https://github.com/digitalocean/nginxconfig.io
 
+## ES 家族
+
 ### easysearch
 
 见 easysearch.yml
+
+### elasticsearch
+
+### opensearch
