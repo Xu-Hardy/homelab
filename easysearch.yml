@@ -56,7 +56,7 @@ services:
     networks:
       - esnet
     ports:
-      - 9000:9000
+      - 5603:9000
     links:
       - easysearch-node1:es1
       - easysearch-node2:es2
